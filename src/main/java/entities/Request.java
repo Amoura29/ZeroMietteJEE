@@ -23,6 +23,8 @@ public class Request implements Serializable {
 	private String description;
 
 	private String state;
+	
+	private int quantity;
 
 	//bi-directional many-to-one association to Announcement
 	@ManyToOne
@@ -68,6 +70,14 @@ public class Request implements Serializable {
 	public void setState(String state) {
 		this.state = state;
 	}
+	
+	public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
 	public Announcement getAnnouncement() {
 		return this.announcement;

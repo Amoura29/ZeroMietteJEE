@@ -27,10 +27,11 @@ public class Announcement implements Serializable {
 
 	private Time deadline;
 
-	@Lob
-	private byte[] img;
+	private String img;
 
 	private String state;
+	
+	private int quantity;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
@@ -76,11 +77,11 @@ public class Announcement implements Serializable {
 		this.deadline = deadline;
 	}
 
-	public byte[] getImg() {
+	public String getImg() {
 		return this.img;
 	}
 
-	public void setImg(byte[] img) {
+	public void setImg(String img) {
 		this.img = img;
 	}
 
@@ -91,6 +92,14 @@ public class Announcement implements Serializable {
 	public void setState(String state) {
 		this.state = state;
 	}
+	
+	public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
 	public User getUser() {
 		return this.user;

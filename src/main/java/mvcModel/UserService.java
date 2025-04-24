@@ -45,7 +45,7 @@ public class UserService {
     		return "failure";
     	return "success";
     }
-    public void addUser(String add,String des,String ema,String fn,String ln,String num,byte[] pro,String pwd,String reg,String r,String state) {
+    public void addUser(String add,String des,String ema,String fn,String ln,String num,String pro,String pwd,String reg,String r,String state) {
     	User u=new User();
     	u.setAddress(add);
     	u.setDescription(des);

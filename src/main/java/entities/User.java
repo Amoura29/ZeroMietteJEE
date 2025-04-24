@@ -37,8 +37,7 @@ public class User implements Serializable {
 
 	private String number;
 
-	@Lob
-	private byte[] proof;
+	private String proof;
 
 	private String pwd;
 
@@ -47,6 +46,9 @@ public class User implements Serializable {
 	private String role;
 
 	private String state;
+	
+	@Column(name = "profile_pic")
+	private String profilePic;
 
 	@Column(name="user_name")
 	private String userName;
@@ -118,11 +120,11 @@ public class User implements Serializable {
 		this.number = number;
 	}
 
-	public byte[] getProof() {
+	public String getProof() {
 		return this.proof;
 	}
 
-	public void setProof(byte[] proof) {
+	public void setProof(String proof) {
 		this.proof = proof;
 	}
 
@@ -156,6 +158,14 @@ public class User implements Serializable {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+	
+	public String getProfilePic() {
+		return this.profilePic;
+	}
+	
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
 	}
 
 	public String getUserName() {
