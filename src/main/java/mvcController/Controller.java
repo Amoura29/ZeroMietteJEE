@@ -1,5 +1,6 @@
 package mvcController;
 
+import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.Part;
 import mvcModel.AnnouncementService;
 import mvcModel.UserService;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
