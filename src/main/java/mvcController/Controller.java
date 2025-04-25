@@ -1,8 +1,6 @@
 package mvcController;
 
-import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,9 +10,6 @@ import jakarta.servlet.http.Part;
 import mvcModel.AnnouncementService;
 import mvcModel.UserService;
 
-
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
@@ -29,11 +24,6 @@ import entities.User;
  * Servlet implementation class Controller
  */
 @WebServlet("/Controller")
-@MultipartConfig(
-    fileSizeThreshold = 1024 * 1024 * 2, // 2MB (memory threshold)
-    maxFileSize = 1024 * 1024 * 10,     // 10MB (max file size)
-    maxRequestSize = 1024 * 1024 * 50    // 50MB (max request size)
-)
 public class Controller extends HttpServlet {
 	@EJB
 	private UserService UserService;
@@ -86,6 +76,8 @@ public class Controller extends HttpServlet {
 				request.getRequestDispatcher(page).forward(request, response);
 			}
 		}
+		
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -93,6 +85,7 @@ public class Controller extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		doGet(request, response);
 		String sub=request.getParameter("myBtn");
 		if ((sub!=null)&&(sub.equals("signUp"))) {
 			final String upPath = "C:/xampp/htdocs/backend/Proofs";
