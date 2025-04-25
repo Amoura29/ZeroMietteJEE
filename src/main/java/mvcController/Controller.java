@@ -55,7 +55,7 @@ public class Controller extends HttpServlet {
 				if (state.equals("pending")||(state.equals("accepted"))) {
 					List<User> users;
 					users=this.UserService.getAllUserbyState(state);
-					if ((users!=null)&& (!users.isEmpty())) {
+					if ((users!=null)&&(!users.isEmpty())) {
 						request.setAttribute("listUsers", users);
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
 					}else {
@@ -75,11 +75,62 @@ public class Controller extends HttpServlet {
 				}
 			}else if (request.getParameter("page")!=null) {
 				String page=request.getParameter("page");
-				request.getRequestDispatcher(page).forward(request, response);
+				if (page.equals("getUser.jsp")) {
+					int id=Integer.parseInt(request.getParameter("userId"));
+					User user=this.UserService.getUserbyId(id);
+					request.removeAttribute("listUsers");
+					request.setAttribute("user", user);
+					if (user.getProof()!=null) {
+						String file=user.getProof();
+						int dotIndex = file.lastIndexOf('.');
+						String fileExtention = "";
+						if (dotIndex > 0 && dotIndex < file.length() - 1) {
+							fileExtention=file.substring(dotIndex);
+						}
+						if (fileExtention!="") {
+							request.setAttribute("extention", fileExtention);
+						}
+					}
+					request.getRequestDispatcher(page).forward(request, response);
+				}else request.getRequestDispatcher(page).forward(request, response);
+			}
+		}else if ((sub!=null)&&(sub.equals("signOut"))) {
+			HttpSession session=request.getSession(false);
+			if (session != null) {
+				if (session.getAttribute("activeUser")!=null) {
+					session.removeAttribute("activeUser");
+					response.sendRedirect("index.jsp");
+				}
+			}
+		}else if ((sub!=null)&&(sub.equals("changeState"))) {
+			int userId=Integer.parseInt(request.getParameter("userId"));
+			String mess=this.UserService.changeUserState(userId);
+			request.setAttribute("message", mess);
+			List<User> users;
+			users=this.UserService.getAllUserbyState("pending");
+			if ((users!=null)&&(!users.isEmpty())) {
+				request.setAttribute("listUsers", users);
+				request.getRequestDispatcher("getList.jsp").forward(request, response);
+			}else {
+				request.setAttribute("error", "there are no pending users yet!!");
+				request.getRequestDispatcher("getList.jsp").forward(request, response);
+			}
+			
+		}else if((sub!=null)&&(sub.equals("deleteUser"))) {
+			int userId=Integer.parseInt(request.getParameter("userId"));
+			String state=request.getParameter("state");
+			String mess=this.UserService.deleteUserById(userId);
+			request.setAttribute("message", mess);
+			List<User> users;
+			users=this.UserService.getAllUserbyState(state);
+			if ((users!=null)&&(!users.isEmpty())) {
+				request.setAttribute("listUsers", users);
+				request.getRequestDispatcher("getList.jsp").forward(request, response);
+			}else {
+				request.setAttribute("error", "there are no "+state+" users yet!!");
+				request.getRequestDispatcher("getList.jsp").forward(request, response);
 			}
 		}
-		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**

@@ -53,7 +53,17 @@ public class UserService {
     		return "failure";
     	return "success";
     }
-    
+    public String changeUserState(int id) {
+    	Query query=em.createNamedQuery("User.updateState");
+    	query.setParameter(1, "accepted");
+    	query.setParameter(2, id);
+    	int upState=query.executeUpdate();
+    	if (upState==1) {
+    		return "success";
+    	}else {
+    		return "failure";
+    	}
+    }
     public String addUserP(String email,String pwd,String userN) {
     	User user;
     	TypedQuery<User> query =em.createNamedQuery("User.findUserbyEmail",User.class);
