@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import mvcModel.AnnouncementService;
 import mvcModel.UserService;
 
 
@@ -16,10 +17,12 @@ import mvcModel.UserService;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import entities.Announcement;
 import entities.User;
 
 /**
@@ -34,6 +37,9 @@ import entities.User;
 public class Controller extends HttpServlet {
 	@EJB
 	private UserService UserService;
+	
+	@EJB
+	private AnnouncementService annService;
 	
 	private static final long serialVersionUID = 1L;
        
@@ -51,6 +57,35 @@ public class Controller extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String sub=request.getParameter("myBtn");
+		if ((sub!=null)&&(sub.equals("redir"))) {
+			if (request.getParameter("state") != null) {
+				String state=request.getParameter("state");
+				if (state.equals("pending")||(state.equals("accepted"))) {
+					List<User> users;
+					users=this.UserService.getAllUserbyState(state);
+					if ((users!=null)&& (!users.isEmpty())) {
+						request.setAttribute("listUsers", users);
+						request.getRequestDispatcher("getList.jsp").forward(request, response);
+					}else {
+						request.setAttribute("error", "there are no"+state+" users yet!!");
+						request.getRequestDispatcher("getList.jsp").forward(request, response);
+					}
+				}else if(state.equals("available")){
+					List<Announcement> announcements;
+					/*announcements=this.annService.getAllAnnouncements();
+					if (announcements!=null) {
+						request.setAttribute("listAnn", announcements);
+						request.getRequestDispatcher("getList.jsp").forward(request, response);
+					}else {
+						request.setAttribute("error", "there are no"+state+" announcements yet!!");
+						request.getRequestDispatcher("getList.jsp").forward(request, response);
+					}*/
+				}
+			}else if (request.getParameter("page")!=null) {
+				String page=request.getParameter("page");
+				request.getRequestDispatcher(page).forward(request, response);
+			}
+		}
 	}
 
 	/**
