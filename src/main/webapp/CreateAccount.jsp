@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,7 +11,7 @@
     <body>
         <form action="Controller" class="was-validated" method="post" enctype="multipart/form-data">
             <div class="row justify-content-center mt-5">
-                <div class="col-5">
+                <div class="col-auto">
                     <div class="row">
                         <div class="col shadow rounded bg-light">
                             <div class="row">
@@ -26,7 +29,7 @@
                                 </div>
                                 <div class="col mt-5">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" id="fn" name="fn" placeholder="" required>
+                                        <input type="text" class="form-control" id="fn" name="fn" placeholder="" required>
                                         <label for="fn" class="form-label">First name</label>
                                         <span class="invalid-feedback">required field</span>
                                     </div>
@@ -40,7 +43,7 @@
                                         <span class="invalid-feedback">required field</span>
                                     </div>
                                 </div>
-                                <div class="col-4 mt-4">
+                                <div class="col-md-4 mt-4">
                                     <div class="form-floating">
                                         <select name="region" id="region" class="form-select" required>
                                             <option value="Tunis">Tunis</option>
@@ -52,7 +55,7 @@
                                             <option value="Bizerte">Bizerte</option>
                                             <option value="Beja">Beja</option>
                                             <option value="Jendouba">Jendouba</option>
-                                            <option value="Kef">Le Kef</option>
+                                            <option value="Kef">Kef</option>
                                             <option value="Siliana">Siliana</option>
                                             <option value="Kairouan">Kairouan</option>
                                             <option value="Kasserine">Kasserine</option>
@@ -66,7 +69,7 @@
                                             <option value="Kebili">Kebili</option>
                                             <option value="Medenine">Medenine</option>
                                             <option value="Tataouine">Tataouine</option>
-                                            <option value="Gabes">Gabès</option>
+                                            <option value="Gabes">Gabes</option>
                                         </select>
                                         <label for="region">Choose a region</label>
                                     </div>
@@ -82,7 +85,7 @@
                                 </div>
                                 <div class="col-auto mt-4">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="num" name="num" placeholder="" pattern="[1-9]{1}[0-9]{7}" required>
+                                        <input type="text" class="form-control" id="num" name="num" placeholder="" pattern="[1-9]{1}[0-9]{7}" maxlength="8" required>
                                         <label for="num" class="form-label">Phone number</label>
                                         <span class="invalid-feedback">required field</span>
                                     </div>
@@ -106,7 +109,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col mt-4">
+                                <div class="col mt-2">
                                     <label for="proof"></label>
                                     <input type="file" class="form-control" name="proof" id="proof" required>
                                 </div>
@@ -118,7 +121,7 @@
                             </div>
                             <div class="row">
                                 <div class="col mt-4 ">
-                                    <input type="submit" name="myBtn" class="btn btn-primary w-100" style="font-size:  32px;font-weight: 600;" value="sign up">
+                                    <input type="submit" name="myBtn" class="btn btn-primary w-100" style="font-size:  32px;font-weight: 600;" value="signUp">
                                 </div>
                             </div>
                         </div>
