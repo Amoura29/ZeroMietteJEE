@@ -133,8 +133,9 @@ public class Controller extends HttpServlet {
 	        	HttpSession session = request.getSession(true);
 		        session.setMaxInactiveInterval(60*60*60);
 		        session.setAttribute("activeUser", u);
+		        
 		        if (u.getRole().equals("administrator")) {
-		        	request.getRequestDispatcher("getAllUsers.jsp").forward(request, response);
+		        	request.getRequestDispatcher("Administrator.jsp").forward(request, response);
 		        }else if (u.getRole().equals("donor")) {
 		        	request.getRequestDispatcher("donor.jsp").forward(request, response);
 		        }else {
