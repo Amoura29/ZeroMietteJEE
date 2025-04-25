@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@NamedQuery(name="Request.findAll", query="SELECT r FROM Request r")
+@NamedQuery(name="Request.findByIdAndState", query="SELECT r FROM Request r WHERE element(r.Id).userId = ?1 AND state = ?2")
 public class Request implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,8 +23,6 @@ public class Request implements Serializable {
 	private String description;
 
 	private String state;
-	
-	private int quantity;
 
 	//bi-directional many-to-one association to Announcement
 	@ManyToOne
@@ -70,14 +68,6 @@ public class Request implements Serializable {
 	public void setState(String state) {
 		this.state = state;
 	}
-	
-	public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
 
 	public Announcement getAnnouncement() {
 		return this.announcement;
