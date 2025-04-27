@@ -17,9 +17,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
-import org.mindrot.jbcrypt.BCrypt;
+//import org.mindrot.jbcrypt.BCrypt;
 
-import entities.Announcement;
 import entities.User;
 
 /**
@@ -28,10 +27,8 @@ import entities.User;
 @WebServlet("/Controller")
 public class Controller extends HttpServlet {
 	@EJB
-	private UserService UserService;
+	private UserService userService;
 	
-	@EJB
-	private AnnouncementService annService;
 	
 	private static final long serialVersionUID = 1L;
        
@@ -54,7 +51,7 @@ public class Controller extends HttpServlet {
 				String state=request.getParameter("state");
 				if (state.equals("pending")||(state.equals("accepted"))) {
 					List<User> users;
-					users=this.UserService.getAllUserbyState(state);
+					users=userService.getAllUserbyState(state);
 					if ((users!=null)&&(!users.isEmpty())) {
 						request.setAttribute("listUsers", users);
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
@@ -62,30 +59,31 @@ public class Controller extends HttpServlet {
 						request.setAttribute("error", "there are no"+state+" users yet!!");
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
 					}
-				}else if(state.equals("available")){
+				}/*else if(state.equals("available")){
 					List<Announcement> announcements;
-					/*announcements=this.annService.getAllAnnouncements();
+					announcements=this.annService.getAllAnnouncements();
 					if (announcements!=null) {
 						request.setAttribute("listAnn", announcements);
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
 					}else {
 						request.setAttribute("error", "there are no"+state+" announcements yet!!");
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
-					}*/
-				}
+					}
+					
+				}*/
 			}else if (request.getParameter("page")!=null) {
 				String page=request.getParameter("page");
 				if (page.equals("getUser.jsp")) {
 					int id=Integer.parseInt(request.getParameter("userId"));
-					User user=this.UserService.getUserbyId(id);
-					request.removeAttribute("listUsers");
+					User user=userService.getUserbyId(id);
 					request.setAttribute("user", user);
 					if (user.getProof()!=null) {
 						String file=user.getProof();
-						int dotIndex = file.lastIndexOf('.');
+						String ogfile=Paths.get(file).getFileName().toString();
+						int dotIndex = ogfile.lastIndexOf('.');
 						String fileExtention = "";
-						if (dotIndex > 0 && dotIndex < file.length() - 1) {
-							fileExtention=file.substring(dotIndex);
+						if (dotIndex > 0 && dotIndex < ogfile.length() - 1) {
+							fileExtention=ogfile.substring(dotIndex);
 						}
 						if (fileExtention!="") {
 							request.setAttribute("extention", fileExtention);
@@ -104,10 +102,10 @@ public class Controller extends HttpServlet {
 			}
 		}else if ((sub!=null)&&(sub.equals("changeState"))) {
 			int userId=Integer.parseInt(request.getParameter("userId"));
-			String mess=this.UserService.changeUserState(userId);
+			String mess=userService.changeUserState(userId);
 			request.setAttribute("message", mess);
 			List<User> users;
-			users=this.UserService.getAllUserbyState("pending");
+			users=userService.getAllUserbyState("pending");
 			if ((users!=null)&&(!users.isEmpty())) {
 				request.setAttribute("listUsers", users);
 				request.getRequestDispatcher("getList.jsp").forward(request, response);
@@ -119,10 +117,10 @@ public class Controller extends HttpServlet {
 		}else if((sub!=null)&&(sub.equals("deleteUser"))) {
 			int userId=Integer.parseInt(request.getParameter("userId"));
 			String state=request.getParameter("state");
-			String mess=this.UserService.deleteUserById(userId);
+			String mess=userService.deleteUserById(userId);
 			request.setAttribute("message", mess);
 			List<User> users;
-			users=this.UserService.getAllUserbyState(state);
+			users=userService.getAllUserbyState(state);
 			if ((users!=null)&&(!users.isEmpty())) {
 				request.setAttribute("listUsers", users);
 				request.getRequestDispatcher("getList.jsp").forward(request, response);
@@ -138,7 +136,7 @@ public class Controller extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		//doGet(request, response);
 		String sub=request.getParameter("myBtn");
 		if ((sub!=null)&&(sub.equals("signUp"))) {
 			final String upPath = "C:/xampp/htdocs/backend/Proofs";
@@ -165,7 +163,7 @@ public class Controller extends HttpServlet {
 			String filePath=upPath+File.separator+fileName;
 			file.write(filePath);
 			
-			this.UserService.addUser(add, description, mai, fn, ln, num, region, filePath, role);
+			userService.addUser(add, description, mai, fn, ln, num, region, filePath, role);
 			
 			response.getWriter().append("user was created!!");
 		}else if ((sub!=null)&&(sub.equals("first sign in"))) {
@@ -175,12 +173,12 @@ public class Controller extends HttpServlet {
 			String password1=request.getParameter("password1");
 			
 			if (password.equals(password1)) {
-				String pwd=BCrypt.hashpw(password, BCrypt.gensalt());
-				String mess=this.UserService.addUserP(email, pwd, userName);
+				String pwd=password;//BCrypt.hashpw(password, BCrypt.gensalt());
+				String mess=userService.addUserP(email, pwd, userName);
 				if (mess.equals("success")) {
 					HttpSession session = request.getSession(true);
 			        session.setMaxInactiveInterval(60*60*60);
-			        User u=this.UserService.getUserbyEmail(email);
+			        User u=userService.getUserbyEmail(email);
 			        session.setAttribute("activeUser", u);
 			        if (u.getRole().equals("administrator")) {
 			        	request.getRequestDispatcher("getAllUsers.jsp").forward(request, response);
@@ -205,12 +203,12 @@ public class Controller extends HttpServlet {
 			String email=request.getParameter("email");
 			String password=request.getParameter("password");
 			
-			User u=this.UserService.getUserbyEmail(email);
+			User u=userService.getUserbyEmail(email);
 			
 			String Hashpwd=u.getPwd();
 			Hashpwd = Hashpwd.replaceFirst("\\$2y\\$", "\\$2a\\$");
 			
-	        if ((BCrypt.checkpw(password, Hashpwd))&&(u!=null)) {
+	        if ((password.equals(u.getPwd()))&&(u!=null)){                                       //(BCrypt.checkpw(password, Hashpwd))&&(u!=null)) {
 	        	HttpSession session = request.getSession(true);
 		        session.setMaxInactiveInterval(60*60*60);
 		        session.setAttribute("activeUser", u);
@@ -222,9 +220,6 @@ public class Controller extends HttpServlet {
 		        }else {
 		        	request.getRequestDispatcher("reciever.jsp").forward(request, response);
 		        }
-	        }else {
-	        	request.setAttribute("error", "email and/or password is incorrect!!");
-	        	request.getRequestDispatcher("authenticate.jsp").forward(request, response);
 	        }
 		}
 
