@@ -1,5 +1,9 @@
 package mvcModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import entities.Announcement;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -19,5 +23,18 @@ public class AnnouncementService {
     public AnnouncementService() {
         // TODO Auto-generated constructor stub
     }
+    
+    /**public List<Announcement> getAnnouncementByDonorIdAndState(int userId, String state){
+    	return em.createNamedQuery("Announcement.getAnnouncementByDonorIdAndState", Announcement.class).setParameter(userId, state).getResultList();	
+    }
+    
+    public void createAnnouncement(Announcement announcement) {
+    	em.persist(announcement);
+    }
+    
+    public void deleteAnnouncementByannCode(String annCode) {
+    	em.remove(em.find(Announcement.class, annCode));
+    }*/
+   
 
 }
