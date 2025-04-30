@@ -87,8 +87,7 @@
             height: 20px;
             width: 20px;
             background-color: transparent;
-            border',
-            'border-top-right-radius: 20px;
+            border-top-right-radius: 20px;
             box-shadow: 7px -7px 0 7px #f0f2f5;
         }
 
