@@ -12,7 +12,12 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Announcement.findByState", query="SELECT a FROM Announcement a WHERE state = ?1")
+@NamedQueries({
+	@NamedQuery(name="Announcement.findByState", query="SELECT a FROM Announcement a WHERE state = ?1")
+	@NamedQuery(name="Announcement.findAll", query="SELECT a FROM Announcement a"),
+/**	@NamedQuery(name="Announcement.getAnnouncementByDonorIdAndState", query="SELECT a FROM Announcement a where userId=?1 and state=?2 ")*/
+})
+
 public class Announcement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -21,6 +26,9 @@ public class Announcement implements Serializable {
 	private String annCode;
 
 	@Lob
+	
+	private String title;
+	
 	private String content;
 
 	private Timestamp dateC;
@@ -32,6 +40,8 @@ public class Announcement implements Serializable {
 	private String state;
 	
 	private int quantity;
+	
+	private String recipientType;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne

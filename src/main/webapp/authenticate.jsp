@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
@@ -28,8 +27,7 @@
                         </div><div class="row">
                             <div class="col mt-4">
                                 <div class="form-floating">
-                                    <input type="password" n
-                                    ame="password" id="password" class="form-control" placeholder="" required /> 
+                                    <input type="password" name="password" id="password" class="form-control" placeholder="" required /> 
                                     <label class="form-label" for="password" style="font-size: 20px;">
                                         <i class="bi bi-lock"></i> Enter your password 
                                     </label> 
