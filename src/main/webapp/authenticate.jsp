@@ -42,7 +42,7 @@
                                 <c:out value="${requestScope.error}"></c:out>
                             </div>
                         </div>
-                        <c:if test="${!requestScope.error}">
+                        <c:if test="${not empty requestScope.error}">
 	                        <div class="row">
 	                            <div class="col">
 	                                <span>if you are signing in for the first time click </span><a href="FirstSignIn.jsp" style="text-decoration: none;">here</a>
