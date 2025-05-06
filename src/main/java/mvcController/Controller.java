@@ -147,17 +147,7 @@ public class Controller extends HttpServlet {
 				request.setAttribute("error", "there are no "+state+" users yet!!");
 				request.getRequestDispatcher("getList.jsp").forward(request, response);
 			}
-		}
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
-		String sub=request.getParameter("myBtn");
-		if ((sub!=null)&&(sub.equals("signUp"))) {
+		}else if ((sub!=null)&&(sub.equals("signUp"))) {
 			final String upPath = "C:/xampp/htdocs/backend/Proofs";
 			
 			String ln=request.getParameter("ln");
