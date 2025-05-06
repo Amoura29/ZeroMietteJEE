@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import mvcModel.AnnouncementService;
+import mvcModel.RequestService;
 import mvcModel.UserService;
 
 import java.io.File;
@@ -21,7 +22,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import entities.Announcement;
 import entities.User;
-
+import entities.Request;
 /**
  * Servlet implementation class Controller
  */
@@ -32,8 +33,13 @@ public class Controller extends HttpServlet {
 	
 	@EJB
 	private AnnouncementService annService;
-	
+
+	@EJB
+    private RequestService RequestService; 
+
 	private static final long serialVersionUID = 1L;
+	
+    
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -47,7 +53,17 @@ public class Controller extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		/*String navbtn =request.getParameter("navbtn");
+			if(navbtn!=null && navbtn.equals("requests")) {
+				String reqstate = request.getParameter("reqstate");
+			if(reqstate!=null && reqstate.equals("refused")) {
+				List<Request> s=requestService.getAllSujectsByTitleAndAffiliation(intitule,affiliation);
+			
+			}else if(reqstate!=null && reqstate.equals("accepted")) {
+							
+			}
+		} */
+
 		String sub=request.getParameter("myBtn");
 		if ((sub!=null)&&(sub.equals("redir"))) {
 			if (request.getParameter("state") != null) {
@@ -58,38 +74,26 @@ public class Controller extends HttpServlet {
 					if ((users!=null)&& (!users.isEmpty())) {
 						request.setAttribute("listUsers", users);
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
-					}else {
+				    }else {
 						request.setAttribute("error", "there are no"+state+" users yet!!");
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
 					}
-				}else if(state.equals("available")){
+				}/*else if(state.equals("available")){
 					List<Announcement> announcements;
-					/*announcements=this.annService.getAllAnnouncements();
+					announcements=this.annService.getAllAnnouncements();
 					if (announcements!=null) {
 						request.setAttribute("listAnn", announcements);
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
 					}else {
 						request.setAttribute("error", "there are no"+state+" announcements yet!!");
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
-					}*/
-				}
+					}
+				}*/
 			}else if (request.getParameter("page")!=null) {
 				String page=request.getParameter("page");
 				request.getRequestDispatcher(page).forward(request, response);
 			}
-		}
-		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-		String sub=request.getParameter("myBtn");
-		if ((sub!=null)&&(sub.equals("signUp"))) {
+		}else if ((sub!=null)&&(sub.equals("signUp"))) {
 			final String upPath = "C:/xampp/htdocs/backend/Proofs";
 			
 			String ln=request.getParameter("ln");
@@ -167,6 +171,7 @@ public class Controller extends HttpServlet {
 		        if (u.getRole().equals("administrator")) {
 		        	request.getRequestDispatcher("Administrator.jsp").forward(request, response);
 		        }else if (u.getRole().equals("donor")) {
+						
 		        	request.getRequestDispatcher("donor.jsp").forward(request, response);
 		        }else {
 		        	request.getRequestDispatcher("reciever.jsp").forward(request, response);
@@ -175,8 +180,16 @@ public class Controller extends HttpServlet {
 	        	request.setAttribute("error", "email and/or password is incorrect!!");
 	        	request.getRequestDispatcher("authenticate.jsp").forward(request, response);
 	        }
-		}
+		}	
+		
+	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

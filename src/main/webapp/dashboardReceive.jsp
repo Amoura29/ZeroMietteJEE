@@ -4,44 +4,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
 </head>
 <body>
-   <!DOCTYPE html>
-<html>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="profile">
+                <img src="assets/avatar.png" alt="Profil">
+                <h2>ZéroMiette</h2>
+            </div>
+            <nav>
+                <form action="dashboard" method="post">
+                    <button name="navbtn" value="home">Home</button>
+                    <button name="navbtn" value="requests">My Requests</button>
+                    <button name="navbtn" value="profile">Profile</button>
+                    <button name="navbtn" value="logout">Log Out</button>
+                </form>
+            </nav>
+        </aside>
 
-<head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-</head>
-
-<body>
-	<div class="dashboard">
-		<aside class="sidebar">
-			<div class="profile">
-				<img src="assets/avatar.png" alt="Profil">
-				<h2>ZéroMiette</h2>
-				
-			</div>
-			<nav>
-				<button name="navbtn" value="home"> Home</button>
-				<button name="navbtn" value="requests">My Requests</button>
-				<button name="navbtn" value="profile">Profile</button>
-				<button name="navbtn" value="logout">Log Out</button>
-			</nav>
-		</aside>
-
-		<main class="content">
-			<c :choose>
-               <c :when test=”${level==1}”>
-               Niveau d´ebutant 
-               </c :when>
-               <c :when test=”${level==2}”>Niveau interm´ediaire </c :when>
-               <c :when test=”${level==3}”>Niveau confirm´e </c :when>
-               <c :when test=”${level==4}”>Niveau expert </c :when>
-               <c :otherwise>Niveau non reconnu : ${level}</c :otherwise>
-            </c :choose>
+        <main class="content">
+            <!-- Dynamically include content based on navbtn -->
+            <c:choose>
+                <c:when test="${pageContent == 'home'}">
+                    <!-- Include home.jsp here -->
+                    <jsp:include page="home.jsp" />
+                </c:when>
+                <c:when test="${pageContent == 'requests'}">
+                    <!-- Include requests.jsp here -->
+                    <jsp:include page="requests.jsp" />
+                </c:when>
+                <c:when test="${pageContent == 'profile'}">
+                    <!-- Include profile.jsp here -->
+                    <jsp:include page="profile.jsp" />
+                </c:when>
+                <c:otherwise>
+                    <h2>Welcome to the Dashboard</h2>
+                    <!-- Default content if no button clicked -->
+                </c:otherwise>
+            </c:choose>
+        </main>
+    </div>
+</body>
+</html>
 
 			
 
@@ -49,14 +55,14 @@
 
 
 	<div class="container mt-5">
-		<h2 class="mb-4 text-center text-primary">ð Mes Demandes</h2>
+		<h2 class="mb-4 text-center text-primary">Mes Demandes</h2>
 
 		<div class="d-flex justify-content-center gap-3 mb-4">
 			<button class="btn btn-outline-primary" (click)="getUserRequestsByState('pending')">
-				â³ En attente
+				 En attente
 			</button>
 			<button class="btn btn-outline-success" (click)="getUserRequestsByState('accepted')">
-				â AcceptÃ©es
+				âcceptÃ©es
 			</button>
 			<button class="btn btn-outline-danger" (click)="getUserRequestsByState('refused')">
 				â RefusÃ©es

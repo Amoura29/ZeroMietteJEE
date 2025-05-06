@@ -12,7 +12,7 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Announcement.findAll", query="SELECT a FROM Announcement a")
+@NamedQuery(name="Announcement.findByState", query="SELECT a FROM Announcement a WHERE state = ?1")
 public class Announcement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
