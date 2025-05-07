@@ -13,8 +13,8 @@ import java.util.List;
  */
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Announcement.findByState", query="SELECT a FROM Announcement a WHERE state = ?1")
-	@NamedQuery(name="Announcement.findAll", query="SELECT a FROM Announcement a"),
+	@NamedQuery(name="Announcement.findByState", query="SELECT a FROM Announcement a WHERE state = ?1"),
+	@NamedQuery(name="Announcement.findAll", query="SELECT a FROM Announcement a")
 /**	@NamedQuery(name="Announcement.getAnnouncementByDonorIdAndState", query="SELECT a FROM Announcement a where userId=?1 and state=?2 ")*/
 })
 
@@ -41,7 +41,7 @@ public class Announcement implements Serializable {
 	
 	private int quantity;
 	
-	private String recipientType;
+	private String category;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
@@ -109,6 +109,14 @@ public class Announcement implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+    
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
 	public User getUser() {

@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
-//import org.mindrot.jbcrypt.BCrypt;
+import org.mindrot.jbcrypt.BCrypt;
 
 import entities.User;
 import entities.Request;
@@ -167,7 +167,7 @@ public class Controller extends HttpServlet {
 	            fileExtention=ogfileName.substring(dotIndex);
 	        }
 	        String randName=UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8);
-			String fileName="Proof"+randName+fileExtention;
+			String fileName="proof"+randName+fileExtention;
 			
 			String filePath=upPath+File.separator+fileName;
 			file.write(filePath);
@@ -175,39 +175,6 @@ public class Controller extends HttpServlet {
 			userService.addUser(add, description, mai, fn, ln, num, region, filePath, role);
 			
 			response.getWriter().append("user was created!!");
-		}else if ((sub!=null)&&(sub.equals("first sign in"))) {
-			String email=request.getParameter("email");
-			String userName=request.getParameter("un");
-			String password=request.getParameter("password");
-			String password1=request.getParameter("password1");
-			
-			if (password.equals(password1)) {
-				String pwd=password;//BCrypt.hashpw(password, BCrypt.gensalt());
-				String mess=userService.addUserP(email, pwd, userName);
-				if (mess.equals("success")) {
-					HttpSession session = request.getSession(true);
-			        session.setMaxInactiveInterval(60*60*60);
-			        User u=userService.getUserbyEmail(email);
-			        session.setAttribute("activeUser", u);
-			        if (u.getRole().equals("administrator")) {
-			        	request.getRequestDispatcher("getAllUsers.jsp").forward(request, response);
-			        }else if (u.getRole().equals("donor")) {
-			        	request.getRequestDispatcher("donor.jsp").forward(request, response);
-			        }else {
-			        	request.getRequestDispatcher("reciever.jsp").forward(request, response);
-			        }
-				}else if(mess.equals("you are not signing in for the first time!!")) {
-					request.setAttribute("error", mess+"\n you can sign in here");
-					request.getRequestDispatcher("authenticate.jsp").forward(request, response);
-				}else {
-					request.setAttribute("error", mess);
-			        request.getRequestDispatcher("FirstSignIn.jsp").forward(request, response);
-				}
-			}else {
-				request.setAttribute("error", "second password must be the same as the first password!!");
-		        request.getRequestDispatcher("FirstSignIn.jsp").forward(request, response);
-			}
-			
 		}else if ((sub!=null)&&(sub.equals("sign in"))) {
 			String email=request.getParameter("email");
 			String password=request.getParameter("password");
@@ -217,13 +184,13 @@ public class Controller extends HttpServlet {
 			String Hashpwd=u.getPwd();
 			Hashpwd = Hashpwd.replaceFirst("\\$2y\\$", "\\$2a\\$");
 			
-	        if ((password.equals(u.getPwd()))&&(u!=null)){                                       //(BCrypt.checkpw(password, Hashpwd))&&(u!=null)) {
+	        if ((u!=null)&&(password.equals(u.getPwd())||BCrypt.checkpw(password, Hashpwd))){                             
 	        	HttpSession session = request.getSession(true);
 		        session.setMaxInactiveInterval(60*60*60);
 		        session.setAttribute("activeUser", u);
 		        
 		        if (u.getRole().equals("administrator")) {
-		        	request.getRequestDispatcher("Administrator.jsp").forward(request, response);
+		        	request.getRequestDispatcher("administrator.jsp").forward(request, response);
 		        }else if (u.getRole().equals("donor")) {
 						
 		        	request.getRequestDispatcher("donor.jsp").forward(request, response);
