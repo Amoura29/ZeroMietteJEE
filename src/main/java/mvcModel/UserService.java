@@ -8,7 +8,6 @@ import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 /**
@@ -54,39 +53,38 @@ public class UserService {
     	return "success";
     }
     public String changeUserState(int id) {
-    	Query query=em.createNamedQuery("User.updateState");
-    	query.setParameter(1, "accepted");
-    	query.setParameter(2, id);
-    	int upState=query.executeUpdate();
-    	if (upState==1) {
-    		return "success";
-    	}else {
-    		return "failure";
-    	}
+    	try {
+			User user=em.find(User.class,id);
+			user.setState("accepted");
+			em.merge(user);
+			return "success";
+		} catch (Exception e) {
+			return "failed";
+		}
+    	
     }
     public String addUserP(String email,String pwd,String userN) {
-    	User user;
-    	TypedQuery<User> query =em.createNamedQuery("User.findUserbyEmail",User.class);
-    	query.setParameter(1, email);
-    	if (query.getResultList().isEmpty()) {
-    		return "there is no user with the email"+email+"you can try signing up!!";
-    	}else {
-    		user=query.getSingleResult();
-        	if (user.getPwd()!=null) {
-        		return "you are not signing in for the first time!!";
-        	}else {
-        		Query upQuery=em.createNamedQuery("User.updatePassword&UserName");
-            	upQuery.setParameter(1, pwd);
-            	upQuery.setParameter(2, userN);
-            	upQuery.setParameter(3, user.getUserId());
-            	int querystate=upQuery.executeUpdate();
-            	if (querystate>0) {
-            		return "success";
-            	}else {
-            		return "failed";
-            	}
-        	}
-    	}
+    	try {
+			User user;
+			TypedQuery<User> query =em.createNamedQuery("User.findUserbyEmail",User.class);
+			query.setParameter(1, email);
+			if (query.getResultList().isEmpty()) {
+				return "there is no user with the email"+email+"you can try signing up!!";
+			}else {
+				user=query.getSingleResult();
+				if (user.getPwd()!=null) {
+					return "you are not signing in for the first time!!";
+				}else {
+					user.setPwd(pwd);
+					user.setUserName(userN);
+					
+			    	em.merge(user);
+			    	return "success";
+				}
+			}
+		} catch (Exception e) {
+			return "failed";
+		}
     }
     
     public void addUser(String add,String des,String ema,String fn,String ln,String num,String reg,String proof,String r) {

@@ -13,8 +13,8 @@ import java.util.List;
  */
 @Entity
 @NamedQueries({
-@NamedQuery(name="Announcement.findAll", query="SELECT a FROM Announcement a"),
-@NamedQuery(name="Announcement.getAnnouncementByUserIdAndState", query="SELECT a FROM Announcement a where userId=?1 and state=?2 ")
+	@NamedQuery(name="Announcement.findByState", query="SELECT a FROM Announcement a WHERE state = ?1"),
+	@NamedQuery(name="Announcement.findAll", query="SELECT a FROM Announcement a")
 })
 
 public class Announcement implements Serializable {
@@ -108,6 +108,14 @@ public class Announcement implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+    
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
 	public User getUser() {

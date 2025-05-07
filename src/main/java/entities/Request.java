@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 	    query = "SELECT r FROM Request r WHERE r.annCode = ?1 AND r.state = 'PENDING' ORDER BY r.dateC DESC")
 
 })
+//@NamedQuery(name="Request.findByIdAndState", query="SELECT r FROM Request r WHERE r.id.userId = ?1 AND state = ?2")
 public class Request implements Serializable {
 	private static final long serialVersionUID = 1L;
 

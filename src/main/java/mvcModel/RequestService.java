@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entities.Request;
-import entities.RequestPK;
-import entities.Request;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -36,10 +34,15 @@ public class RequestService {
     	 return requests;
     }
     public void addRequest(Request r){
-    	Request req = em.find(Request.class, r.getId());
-   	    if(req==null) {
-   	    	em.persist(r);
-   	    }
+    	try {
+			Request req = em.find(Request.class, r.getId());
+			if(req==null) {
+				em.persist(r);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
    	}
     
     public List<Request> getPendingAnnRequests(String annCode){
