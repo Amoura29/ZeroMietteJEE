@@ -10,7 +10,16 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@NamedQuery(name="Request.findByIdAndState", query="SELECT r FROM Request r WHERE element(r.Id).userId = ?1 AND state = ?2")
+@NamedQueries({
+@NamedQuery(name="Request.findByIdAndState", query="SELECT r FROM Request r WHERE element(r.Id).userId = ?1 AND state = ?2"),
+@NamedQuery(
+	    name = "Request.getAcceptedWithUserByAnnCode",
+	    query = "SELECT r FROM Request r JOIN FETCH r.user u WHERE r.annCode = ?1 AND r.state = 'ACCEPTED' ORDER BY r.dateC DESC"),
+@NamedQuery(
+	    name = "Request.getPendingByAnnCode",
+	    query = "SELECT r FROM Request r WHERE r.annCode = ?1 AND r.state = 'PENDING' ORDER BY r.dateC DESC")
+
+})
 public class Request implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,6 +32,8 @@ public class Request implements Serializable {
 	private String description;
 
 	private String state;
+	
+	private int quantity;
 
 	//bi-directional many-to-one association to Announcement
 	@ManyToOne
@@ -68,6 +79,14 @@ public class Request implements Serializable {
 	public void setState(String state) {
 		this.state = state;
 	}
+	
+	public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
 	public Announcement getAnnouncement() {
 		return this.announcement;

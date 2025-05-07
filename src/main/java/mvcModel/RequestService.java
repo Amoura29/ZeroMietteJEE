@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entities.Request;
+import entities.RequestPK;
 import entities.Request;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
@@ -41,7 +42,47 @@ public class RequestService {
    	    }
    	}
     
+    public List<Request> getPendingAnnRequests(String annCode){
+    	return em.createNamedQuery("Request.getPendingByAnnCode", Request.class).setParameter(1,annCode).getResultList();
+    	
+    }
     
+    public List<Request> getAcceptedAnnRequests(String annCode){
+    	return em.createNamedQuery("Request.getAcceptedWithUserByAnnCode", Request.class).setParameter(1,annCode).getResultList();
+    	
+    }
     
+    public boolean approveRequest(RequestPK id) {
+    	try {
+			Request request=em.find(Request.class, id);
+			if (request!=null) {
+				request.setState("accepted");
+				em.merge(request);
+				return true;
+			}return false;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+    	
+    	
+    }
+    
+    public boolean declineRequest(RequestPK id) {
+    	try {
+			Request request=em.find(Request.class, id);
+			if (request!=null) {
+				request.setState("refused");
+				em.merge(request);
+				return true;
+			}return false;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+    	
+    } 
     
 }

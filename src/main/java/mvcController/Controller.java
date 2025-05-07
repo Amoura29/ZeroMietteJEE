@@ -49,6 +49,7 @@ public class Controller extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String sub=request.getParameter("myBtn");
+		
 		if ((sub!=null)&&(sub.equals("redir"))) {
 			if (request.getParameter("state") != null) {
 				String state=request.getParameter("state");
@@ -64,14 +65,14 @@ public class Controller extends HttpServlet {
 					}
 				}else if(state.equals("available")){
 					List<Announcement> announcements;
-					/*announcements=this.annService.getAllAnnouncements();
+					announcements=this.annService.getAllAnnouncements();
 					if (announcements!=null) {
 						request.setAttribute("listAnn", announcements);
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
 					}else {
 						request.setAttribute("error", "there are no"+state+" announcements yet!!");
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
-					}*/
+					}
 				}
 			}else if (request.getParameter("page")!=null) {
 				String page=request.getParameter("page");
@@ -131,6 +132,7 @@ public class Controller extends HttpServlet {
 				request.getRequestDispatcher("getList.jsp").forward(request, response);
 			}
 		}
+		
 	}
 
 	/**
@@ -228,6 +230,6 @@ public class Controller extends HttpServlet {
 	        }
 		}
 
-	}
+	
 
-}
+}}
