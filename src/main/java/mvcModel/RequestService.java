@@ -34,10 +34,15 @@ public class RequestService {
     	 return requests;
     }
     public void addRequest(Request r){
-    	Request req = em.find(Request.class, r.getId());
-   	    if(req==null) {
-   	    	em.persist(r);
-   	    }
+    	try {
+			Request req = em.find(Request.class, r.getId());
+			if(req==null) {
+				em.persist(r);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
    	}
     
     

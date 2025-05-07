@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Entity
 @NamedQueries({
+	@NamedQuery(name="Announcement.findByState", query="SELECT a FROM Announcement a WHERE state = ?1")
 	@NamedQuery(name="Announcement.findAll", query="SELECT a FROM Announcement a"),
 /**	@NamedQuery(name="Announcement.getAnnouncementByDonorIdAndState", query="SELECT a FROM Announcement a where userId=?1 and state=?2 ")*/
 })
