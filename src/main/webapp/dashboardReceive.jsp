@@ -46,14 +46,7 @@
             </c:choose>
         </main>
     </div>
-</body>
-</html>
-
 			
-
-
-
-
 	<div class="container mt-5">
 		<h2 class="mb-4 text-center text-primary">Mes Demandes</h2>
 
@@ -96,11 +89,6 @@
 		<div class="alert alert-info text-center">ð Choisissez un Ã©tat pour afficher vos demandes.</div>
 		}
 	</div>
-
-
-</body>
-
-</html>
 
 </body>
 </html>
