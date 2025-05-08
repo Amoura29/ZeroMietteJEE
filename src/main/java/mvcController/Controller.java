@@ -1,6 +1,7 @@
 package mvcController;
 
 import jakarta.ejb.EJB;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,13 +16,18 @@ import mvcModel.UserService;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.mindrot.jbcrypt.BCrypt;
 
 import entities.User;
+import entities.Announcement;
 import entities.Request;
+import entities.RequestPK;
 /**
  * Servlet implementation class Controller
  */
@@ -64,6 +70,7 @@ public class Controller extends HttpServlet {
 		} */
 
 		String sub=request.getParameter("myBtn");
+		
 		if ((sub!=null)&&(sub.equals("redir"))) {
 			if (request.getParameter("state") != null) {
 				String state=request.getParameter("state");
@@ -118,6 +125,7 @@ public class Controller extends HttpServlet {
 					response.sendRedirect("index.jsp");
 				}
 			}
+		
 		}else if ((sub!=null)&&(sub.equals("changeState"))) {
 			int userId=Integer.parseInt(request.getParameter("userId"));
 			String mess=userService.changeUserState(userId);
@@ -196,13 +204,86 @@ public class Controller extends HttpServlet {
 						
 		        	request.getRequestDispatcher("donor.jsp").forward(request, response);
 		        }else {
-		        	request.getRequestDispatcher("reciever.jsp").forward(request, response);
+		        	List<Announcement> ann=annService.getAnnByState("available");
+                    
+		        	if (ann!= null && ann.size()>0){
+		        		request.setAttribute("ann", ann);
+		        		request.getRequestDispatcher("reciever.jsp").forward(request, response);
+		        	}else {
+		        		request.setAttribute("error", "There are no results that meet the research!!");
+		        		request.getRequestDispatcher("reciever.jsp").forward(request, response);
+		        	}
 		        }
 	        }else {
 	        	request.setAttribute("error", "email and/or password is incorrect!!");
 	        	request.getRequestDispatcher("authenticate.jsp").forward(request, response);
 	        }
-		}	
+		}else if (sub != null && sub.equals("Announcements")) {
+			HttpSession session = request.getSession(false);
+		    User u = (session != null) ? (User) session.getAttribute("activeUser") : null;
+			if (u == null) {
+		        request.setAttribute("error", "Session expired. Please sign in again.");
+		        request.getRequestDispatcher("authenticate.jsp").forward(request, response);
+		        return;
+		    }
+		    List<Announcement> ann = annService.getAnnByState("available");
+
+		    if (ann != null && !ann.isEmpty()) {
+		        request.setAttribute("ann", ann);
+		    } else {
+		        request.setAttribute("error", "There are no results that meet the research!!");
+		    }
+
+		    request.getRequestDispatcher("reciever.jsp").forward(request, response);
+		}else if (sub != null && sub.equals("requests")) {
+			HttpSession session = request.getSession(false);
+		    User u = (session != null) ? (User) session.getAttribute("activeUser") : null;
+		    if (u == null) {
+		        request.setAttribute("error", "Session expired. Please sign in again.");
+		        request.getRequestDispatcher("authenticate.jsp").forward(request, response);
+		        return;
+		    }
+		    List<Request> reqs = RequestService.getUserRequestsByState(u.getUserId(),"pending");
+		    if (reqs != null && !reqs.isEmpty()) {
+		    	request.setAttribute("reqs", reqs);
+		    } else {
+		        request.setAttribute("error", "There are no results that meet the research!!");
+		    }
+
+		    request.getRequestDispatcher("reciever.jsp").forward(request, response);
+		}else if(sub != null && sub.equals("addrequest")) {
+			HttpSession session = request.getSession(false);
+		    User u = (session != null) ? (User) session.getAttribute("activeUser") : null;
+			if (u == null) {
+		        request.setAttribute("error", "Session expired. Please sign in again.");
+		        request.getRequestDispatcher("authenticate.jsp").forward(request, response);
+		        return;
+		    }
+			String annCode = request.getParameter("annCode");
+			boolean check= RequestService.checkRequest(u.getUserId(), annCode);
+			if(check==false) {
+				String desc=request.getParameter("desc");
+				String qte=request.getParameter("qte");
+				int q=Integer.parseInt(qte);
+				RequestPK RK =new RequestPK();
+				RK.setUserId(u.getUserId());
+				RK.setAnnCode(annCode);
+			    Request R= new Request();
+			    R.setId(RK);
+			    R.setDescription(desc);
+			    R.setQuantity(q);
+			    R.setAnnouncement(annService.getAnnByCode(annCode));
+				RequestService.addRequest(R);
+				request.setAttribute("result","success");
+			}else {
+				request.setAttribute("you already sended a request to this announcement", annCode);
+				
+			}
+			
+		}else {
+			/*User u=userService.getUserbyId(2);
+			response.getWriter().append(u.getFirstName());*/
+		}
 		
 	}
 

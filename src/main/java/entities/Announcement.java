@@ -14,8 +14,8 @@ import java.util.List;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Announcement.findByState", query="SELECT a FROM Announcement a WHERE state = ?1"),
-	@NamedQuery(name="Announcement.findAll", query="SELECT a FROM Announcement a")
-/**	@NamedQuery(name="Announcement.getAnnouncementByDonorIdAndState", query="SELECT a FROM Announcement a where userId=?1 and state=?2 ")*/
+	@NamedQuery(name="Announcement.findAll", query="SELECT a FROM Announcement a"),
+	@NamedQuery(name="Announcement.findByCode", query="SELECT a FROM Announcement a WHERE annCode = ?1")
 })
 
 public class Announcement implements Serializable {
@@ -62,7 +62,15 @@ public class Announcement implements Serializable {
 	public void setAnnCode(String annCode) {
 		this.annCode = annCode;
 	}
-
+	
+	public String getTitle() {
+		return this.title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
 	public String getContent() {
 		return this.content;
 	}
@@ -126,6 +134,23 @@ public class Announcement implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public String getCategory() {
+		return this.category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
+	public String getTitle() {
+		return this.title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 
 	public List<Request> getRequests() {
 		return this.requests;
