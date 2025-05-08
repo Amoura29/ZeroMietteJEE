@@ -362,7 +362,7 @@
                             <div class="row"><div class="col"><strong style="color: #1f4d36;">Description :</strong> <c:out value="${ann.content}"/></div></div>
                             <div class="row"><div class="col"><strong style="color: #1f4d36;">Quantité :</strong> <c:out value="${ann.quantity}"/></div></div>
                             <div class="row"><div class="col"><strong style="color: #1f4d36;">Date de création :</strong> <c:out value="${ann.dateC}"/></div></div>
-                            <div class="row"><div class="col-6"> </div><a href="Controller?myBtn=addrequest&annCode=${ann.annCode}" class="nav-link" >Send request</div>
+                            <div class="row"><div class="col-6"> </div><a href="Controller?myBtn=addrequest&annCode=${ann.annCode}" class="nav-link" >Send request</a></div>
                             
                             
                         </div>

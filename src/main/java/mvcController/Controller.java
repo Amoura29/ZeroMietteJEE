@@ -16,7 +16,7 @@ import mvcModel.UserService;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,16 +58,6 @@ public class Controller extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*String navbtn =request.getParameter("navbtn");
-			if(navbtn!=null && navbtn.equals("requests")) {
-				String reqstate = request.getParameter("reqstate");
-			if(reqstate!=null && reqstate.equals("refused")) {
-				List<Request> s=requestService.getAllSujectsByTitleAndAffiliation(intitule,affiliation);
-			
-			}else if(reqstate!=null && reqstate.equals("accepted")) {
-							
-			}
-		} */
 
 		String sub=request.getParameter("myBtn");
 		
@@ -85,9 +75,9 @@ public class Controller extends HttpServlet {
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
 					}
 				
-				}/*else if(state.equals("available")){
+				}else if(state.equals("available")){
 					List<Announcement> announcements;
-					announcements=this.annService.getAllAnnouncements();
+					announcements=this.annService.getAnnByState(state);
 					if (announcements!=null) {
 						request.setAttribute("listAnn", announcements);
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
@@ -95,7 +85,7 @@ public class Controller extends HttpServlet {
 						request.setAttribute("error", "there are no"+state+" announcements yet!!");
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
 					}
-				}*/
+				}
 			}else if (request.getParameter("page")!=null) {
 				String page=request.getParameter("page");
 				if (page.equals("getUser.jsp")) {
@@ -184,40 +174,6 @@ public class Controller extends HttpServlet {
 			userService.addUser(add, description, mai, fn, ln, num, region, fileURL, role);
 			
 			response.getWriter().append("user was created!!");
-		}else if ((sub!=null)&&(sub.equals("sign in"))) {
-			String email=request.getParameter("email");
-			String password=request.getParameter("password");
-			
-			User u=userService.getUserbyEmail(email);
-			
-			String Hashpwd=u.getPwd();
-			Hashpwd = Hashpwd.replaceFirst("\\$2y\\$", "\\$2a\\$");
-			
-	        if ((u!=null)&&(password.equals(u.getPwd())||BCrypt.checkpw(password, Hashpwd))){                             
-	        	HttpSession session = request.getSession(true);
-		        session.setMaxInactiveInterval(60*60*60);
-		        session.setAttribute("activeUser", u);
-		        
-		        if (u.getRole().equals("administrator")) {
-		        	request.getRequestDispatcher("administrator.jsp").forward(request, response);
-		        }else if (u.getRole().equals("donor")) {
-						
-		        	request.getRequestDispatcher("donor.jsp").forward(request, response);
-		        }else {
-		        	List<Announcement> ann=annService.getAnnByState("available");
-                    
-		        	if (ann!= null && ann.size()>0){
-		        		request.setAttribute("ann", ann);
-		        		request.getRequestDispatcher("reciever.jsp").forward(request, response);
-		        	}else {
-		        		request.setAttribute("error", "There are no results that meet the research!!");
-		        		request.getRequestDispatcher("reciever.jsp").forward(request, response);
-		        	}
-		        }
-	        }else {
-	        	request.setAttribute("error", "email and/or password is incorrect!!");
-	        	request.getRequestDispatcher("authenticate.jsp").forward(request, response);
-	        }
 		}else if (sub != null && sub.equals("Announcements")) {
 			HttpSession session = request.getSession(false);
 		    User u = (session != null) ? (User) session.getAttribute("activeUser") : null;
@@ -281,8 +237,7 @@ public class Controller extends HttpServlet {
 			}
 			
 		}else {
-			/*User u=userService.getUserbyId(2);
-			response.getWriter().append(u.getFirstName());*/
+			response.sendRedirect("index.jsp");
 		}
 		
 	}
@@ -292,7 +247,42 @@ public class Controller extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		String sub=request.getParameter("myBtn");
+		if ((sub!=null)&&(sub.equals("sign in"))) {
+			String email=request.getParameter("email");
+			String password=request.getParameter("password");
+			
+			User u=userService.getUserbyEmail(email);
+			
+			String Hashpwd=u.getPwd();
+			Hashpwd = Hashpwd.replaceFirst("\\$2y\\$", "\\$2a\\$");
+			
+	        if ((u!=null)&&(password.equals(u.getPwd())||BCrypt.checkpw(password, Hashpwd))){                             
+	        	HttpSession session = request.getSession(true);
+		        session.setMaxInactiveInterval(60*60*60);
+		        session.setAttribute("activeUser", u);
+		        
+		        if (u.getRole().equals("administrator")) {
+		        	request.getRequestDispatcher("administrator.jsp").forward(request, response);
+		        }else if (u.getRole().equals("donor")) {
+						
+		        	request.getRequestDispatcher("donor.jsp").forward(request, response);
+		        }else {
+		        	List<Announcement> ann=annService.getAnnByState("available");
+                    
+		        	if (ann!= null && ann.size()>0){
+		        		request.setAttribute("ann", ann);
+		        		request.getRequestDispatcher("reciever.jsp").forward(request, response);
+		        	}else {
+		        		request.setAttribute("error", "There are no results that meet the research!!");
+		        		request.getRequestDispatcher("reciever.jsp").forward(request, response);
+		        	}
+		        }
+	        }else {
+	        	request.setAttribute("error", "email and/or password is incorrect!!");
+	        	request.getRequestDispatcher("authenticate.jsp").forward(request, response);
+	        }
+		}
 	}
 
 }

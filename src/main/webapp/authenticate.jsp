@@ -73,7 +73,7 @@
                             </div>
                         </c:if>
 
-                        <form action="Controller"  class="was-validated"  method="post">
+                        <form action="./Controller" method="post" class="was-validated"  >
                             <div class="mb-3">
                                 <div class="form-floating">
                                     <input type="email" name="email" id="email" class="form-control" placeholder="" required /> 

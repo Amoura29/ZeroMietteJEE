@@ -209,7 +209,7 @@
                                             <strong>Quantity:</strong> ${req.quantity}<br>
                                             <strong>Date:</strong> ${req.dateC}
                                         </p>
-                                        <div class="d-flex gap-2">
+                                        <div class="d-flex gap-2"><!---
                                             <form action="Controller" method="post">
                                                 <input type="hidden" name="reqId" value="${req.reqId}">
                                                 <button type="submit" name="action" value="updateRequest" class="btn btn-warning">Modify</button>
@@ -217,7 +217,7 @@
                                             <form action="Controller" method="post">
                                                 <input type="hidden" name="reqId" value="${req.reqId}">
                                                 <button type="submit" name="action" value="deleteRequest" class="btn btn-danger">Delete</button>
-                                            </form>
+                                            </form>--->
                                         </div>
                                     </div>
                                 </div>

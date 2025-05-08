@@ -17,6 +17,7 @@
                     <a class="nav-link" href="Controller?myBtn=redir&page=administrator.jsp">Acceuil</a>
                 </li>
             </ul>
+            <c:out value="${ sessionScope.activeUser.firstname }"></c:out>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 				<li class="nav-item dropdown">
 				    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">

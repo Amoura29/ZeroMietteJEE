@@ -37,20 +37,31 @@ public class UserService {
     }
     public List<User> getAllUserbyState(String state){
     	List<User> users=new ArrayList<User>();
-    	TypedQuery<User> query =em.createNamedQuery("User.findAllbyState",User.class);
-    	query.setParameter(1, state);
-    	users=query.getResultList();
+    	try {
+			TypedQuery<User> query =em.createNamedQuery("User.findAllbyState",User.class);
+			query.setParameter(1, state);
+			users=query.getResultList();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	return users;
     }
     public String deleteUserById(int id){
-    	User user = em.find(User.class, id);
-    	if(user!=null)
-    		em.remove(user);
-    	else return "introuvable";
-    	user = em.find(User.class, id);
-    	if(user!=null)
-    		return "failure";
-    	return "success";
+    	try {
+			User user = em.find(User.class, id);
+			if(user!=null)
+				em.remove(user);
+			else return "introuvable";
+			user = em.find(User.class, id);
+			if(user!=null)
+				return "failure";
+			return "success";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "failure";
+		}
     }
     public String changeUserState(int id) {
     	try {
@@ -59,7 +70,8 @@ public class UserService {
 			em.merge(user);
 			return "success";
 		} catch (Exception e) {
-			return "failed";
+			e.printStackTrace();
+			return "failure";
 		}
     	
     }
@@ -83,22 +95,28 @@ public class UserService {
 				}
 			}
 		} catch (Exception e) {
-			return "failed";
+			e.printStackTrace();
+			return "failure";
 		}
     }
     
     public void addUser(String add,String des,String ema,String fn,String ln,String num,String reg,String proof,String r) {
-    	User u=new User();
-    	u.setAddress(add);
-    	u.setDescription(des);
-    	u.setEmail(ema);
-    	u.setFirstName(fn);
-    	u.setLastName(ln);
-    	u.setNumber(num);
-    	u.setRegion(reg);
-    	u.setRole(r);
-    	u.setProof(proof);
-    	u.setState("pending");
-    	em.persist(u);
+    	try {
+			User u=new User();
+			u.setAddress(add);
+			u.setDescription(des);
+			u.setEmail(ema);
+			u.setFirstName(fn);
+			u.setLastName(ln);
+			u.setNumber(num);
+			u.setRegion(reg);
+			u.setRole(r);
+			u.setProof(proof);
+			u.setState("pending");
+			em.persist(u);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }
