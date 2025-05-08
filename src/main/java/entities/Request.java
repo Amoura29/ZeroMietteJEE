@@ -31,7 +31,6 @@ public class Request implements Serializable {
 
 	@Lob
 	private String description;
-	private int quantity;
 
 	private String state;
 	
@@ -74,13 +73,6 @@ public class Request implements Serializable {
 		this.description = description;
 	}
 	
-	public int getQuantity() {
-		return this.quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
 	
 
 	public String getState() {

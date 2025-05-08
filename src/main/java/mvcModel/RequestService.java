@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entities.Request;
+import entities.RequestPK;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -34,6 +35,7 @@ public class RequestService {
     	 return requests;
     }
     public void addRequest(Request r){
+    	try {
 			Request req = em.find(Request.class, r.getId());
 			if(req==null) {
 				em.persist(r);
@@ -86,9 +88,7 @@ public class RequestService {
 		}
     	
     } 
-				em.persist(r);}
 		
-   	}
     public boolean checkRequest(int userId ,String annCode){
      Request req= new Request();
    	 TypedQuery<Request> query =

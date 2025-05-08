@@ -63,13 +63,6 @@ public class Announcement implements Serializable {
 		this.annCode = annCode;
 	}
 	
-	public String getTitle() {
-		return this.title;
-	}
-	
-	public void setTitle(String title) {
-		this.title = title;
-	}
 	
 	public String getContent() {
 		return this.content;
@@ -119,14 +112,7 @@ public class Announcement implements Serializable {
         this.quantity = quantity;
     }
     
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
+   
 	public User getUser() {
 		return this.user;
 	}
