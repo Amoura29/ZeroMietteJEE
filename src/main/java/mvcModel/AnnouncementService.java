@@ -25,13 +25,20 @@ public class AnnouncementService {
         // TODO Auto-generated constructor stub
     }
     public List<Announcement> getAnnByState(String state){
-   	 List<Announcement> announcements =new ArrayList<Announcement>();
-   	 TypedQuery<Announcement> query =
-   	 em.createNamedQuery("Announcement.findByState",Announcement.class);
-   	 query.setParameter(1, state);
-   	 announcements = query.getResultList();
-   	 return announcements;
-   }
+    	List<Announcement> announcements =new ArrayList<Announcement>();
+    	TypedQuery<Announcement> query =em.createNamedQuery("Announcement.findByState",Announcement.class);
+    	query.setParameter(1, state);
+    	announcements = query.getResultList();
+    	return announcements;
+    }
+    public Announcement getAnnByCode(String annCode) {
+    	Announcement ann=new Announcement();
+    	TypedQuery<Announcement> query =em.createNamedQuery("Announcement.findByCode",Announcement.class);
+    	query.setParameter(1, annCode);
+    	ann = query.getSingleResult();
+    	return ann;
+    }
+    
     
     /**public List<Announcement> getAnnouncementByDonorIdAndState(int userId, String state){
     	return em.createNamedQuery("Announcement.getAnnouncementByDonorIdAndState", Announcement.class).setParameter(userId, state).getResultList();	

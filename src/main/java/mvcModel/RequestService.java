@@ -34,18 +34,25 @@ public class RequestService {
     	 return requests;
     }
     public void addRequest(Request r){
-    	try {
 			Request req = em.find(Request.class, r.getId());
 			if(req==null) {
-				em.persist(r);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+				em.persist(r);}
+		
    	}
-    
-    
+    public boolean checkRequest(int userId ,String annCode){
+     Request req= new Request();
+   	 TypedQuery<Request> query =
+   	 em.createNamedQuery("Request.findRequest",Request.class);
+   	 query.setParameter(1, userId);
+   	 query.setParameter(2, annCode);
+   	 req = query.getSingleResult();
+   	 if(req==null) {
+   		 return false;
+   	 }else {
+   		 return true;
+   	 }
+   	 
+   }
     
     
 }

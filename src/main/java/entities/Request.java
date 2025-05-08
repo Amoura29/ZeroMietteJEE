@@ -10,7 +10,10 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@NamedQuery(name="Request.findByIdAndState", query="SELECT r FROM Request r WHERE r.id.userId = ?1 AND state = ?2")
+@NamedQueries({
+@NamedQuery(name="Request.findByIdAndState", query="SELECT r FROM Request r WHERE r.id.userId = ?1 AND state = ?2"),
+@NamedQuery(name="Request.findRequest", query="SELECT r FROM Request r WHERE r.id.userId = ?1 AND r.id.annCode = ?2")
+})
 public class Request implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -21,6 +24,7 @@ public class Request implements Serializable {
 
 	@Lob
 	private String description;
+	private int quantity;
 
 	private String state;
 
@@ -60,6 +64,15 @@ public class Request implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public int getQuantity() {
+		return this.quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	
 
 	public String getState() {
 		return this.state;
