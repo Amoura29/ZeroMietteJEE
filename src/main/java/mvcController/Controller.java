@@ -77,10 +77,9 @@ public class Controller extends HttpServlet {
 						request.setAttribute("error", "there are no"+state+" users yet!!");
 						request.getRequestDispatcher("getList.jsp").forward(request, response);
 					}
-				}/*else if(state.equals("available")){
+				
 				}/*else if(state.equals("available")){
 					List<Announcement> announcements;
-					announcements=this.annService.getAllAnnouncements();
 					announcements=this.annService.getAllAnnouncements();
 					if (announcements!=null) {
 						request.setAttribute("listAnn", announcements);
@@ -172,7 +171,9 @@ public class Controller extends HttpServlet {
 			String filePath=upPath+File.separator+fileName;
 			file.write(filePath);
 			
-			userService.addUser(add, description, mai, fn, ln, num, region, filePath, role);
+			String fileURL="http://localhost/backend/proofs"+File.separator+fileName;
+			
+			userService.addUser(add, description, mai, fn, ln, num, region, fileURL, role);
 			
 			response.getWriter().append("user was created!!");
 		}else if ((sub!=null)&&(sub.equals("sign in"))) {

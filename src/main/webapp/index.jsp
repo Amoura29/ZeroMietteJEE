@@ -6,15 +6,15 @@
 	<meta charset="UTF-8">
 	<title>ZeroMiette</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="./css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
 	<link href="./css/index.css" rel="stylesheet">
-	<link rel="stylesheet" href="./css/bootstrap-icons.min.css">
 </head>
 <body>
 	<nav class="navbar custom-navbar sticky-top" style="background-color: white;" data-bs-theme="light">
         <div class="container-fluid">
             <a class="navbar-brand mb-2 mb-lg-0" href="index.jsp">
-                <img src="assets/logo.ico" alt="ZeroMiette Icon" class="brand-icon">ZeroMiette
+                <img src="assets/logo.ico" alt="ZeroMiette Icon" style="height: 2.2rem;" class="brand-icon">ZeroMiette
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

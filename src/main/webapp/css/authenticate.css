@@ -9,7 +9,6 @@ body {
   background-color: #f8f9f6;
 }
 
-
 h1, h2, h3 {
   color: #3b5e2b;
 }
@@ -22,6 +21,7 @@ h1, h2, h3 {
   position: relative;
   top: -3px; /* Move up slightly (adjust as needed) */
 }
+
 
 .custom-navbar {
   min-height: 70px; /* Increase navbar height */
@@ -107,46 +107,54 @@ h1, h2, h3 {
 }
 
 
-.container {
-  background-color: #f8f9f6;
-  padding: 20px;
+.card {
+    border-radius: 10px;
 }
-.title {
-  color: #3b5e2b;
-  font-weight: bold;
-}
-.subtitle {
-  color: #424242;
-  font-size: medium;
-}
-.badge {
-  background-color: #daf8db;
-  color: #3b5e2b;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+  
+.btn-primary {
+    background-color: #2E7D32;
+    border-color: #2E7D32;
+    color: #fff;
 }
 
-pre{
-  white-space: pre-wrap;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+.btn-primary:hover {
+    background-color: #1B5E20;
+    border-color: #1B5E20;
 }
 
-.description h3 {
-  color: #191919;
-  font-weight: bold;
+.brand-icon {
+    height: 4rem; /* Match the font-size of 1.5rem used for nav links */
+    width: auto; /* Maintain aspect ratio */
 }
-.description pre {
-  color: #424242;
-  font-size: medium;
+
+a:hover{
+    color: #1B5E20  !important;
 }
-.step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
+a{
+    color: #259e41;
+}
+
+.form-control:valid:focus {
+    box-shadow: 0 0 0 0.2rem rgba(21, 133, 19, 0.327);
+    border-color: #28a745;
+}
+
+.form-control:invalid:focus{
+    box-shadow: 0 0 0 0.2rem rgba(254, 51, 51, 0.327);
+    border-color: #dc3545;
+}
+
+.inval-feedback , .empty-feedback{
+	color: #dc3545;
+	font-size: medium;
+	display: none;
+}
+
+#email:invalid:not(:placeholder-shown)~.inval-feedback , #password:invalid:not(:placeholder-shown)~.inval-feedback{
+	display:block;
+}
+
+#email:empty:placeholder-shown~.empty-feedback , #password:empty:placeholder-shown~.empty-feedback {
+	display: block;
 }
