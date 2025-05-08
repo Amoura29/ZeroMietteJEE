@@ -126,7 +126,7 @@ public class Announcement implements Serializable {
     public void setCategory(String category) {
         this.category = category;
     }
-    
+
 	public User getUser() {
 		return this.user;
 	}
@@ -134,6 +134,23 @@ public class Announcement implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public String getCategory() {
+		return this.category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
+	public String getTitle() {
+		return this.title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 
 	public List<Request> getRequests() {
 		return this.requests;

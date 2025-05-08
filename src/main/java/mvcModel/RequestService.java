@@ -36,6 +36,56 @@ public class RequestService {
     public void addRequest(Request r){
 			Request req = em.find(Request.class, r.getId());
 			if(req==null) {
+				em.persist(r);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+   	}
+    
+    public List<Request> getPendingAnnRequests(String annCode){
+    	return em.createNamedQuery("Request.getPendingByAnnCode", Request.class).setParameter(1,annCode).getResultList();
+    	
+    }
+    
+    public List<Request> getAcceptedAnnRequests(String annCode){
+    	return em.createNamedQuery("Request.getAcceptedWithUserByAnnCode", Request.class).setParameter(1,annCode).getResultList();
+    	
+    }
+    
+    public boolean approveRequest(RequestPK id) {
+    	try {
+			Request request=em.find(Request.class, id);
+			if (request!=null) {
+				request.setState("accepted");
+				em.merge(request);
+				return true;
+			}return false;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+    	
+    	
+    }
+    
+    public boolean declineRequest(RequestPK id) {
+    	try {
+			Request request=em.find(Request.class, id);
+			if (request!=null) {
+				request.setState("refused");
+				em.merge(request);
+				return true;
+			}return false;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+    	
+    } 
 				em.persist(r);}
 		
    	}
