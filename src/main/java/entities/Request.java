@@ -14,10 +14,10 @@ import java.sql.Timestamp;
 @NamedQuery(name="Request.findByIdAndState", query="SELECT r FROM Request r WHERE r.id.userId = ?1 AND state = ?2"),
 @NamedQuery(
 	    name = "Request.getAcceptedWithUserByAnnCode",
-	    query = "SELECT r FROM Request r JOIN FETCH r.user u WHERE r.annCode = ?1 AND r.state = 'ACCEPTED' ORDER BY r.dateC DESC"),
+	    query = "SELECT r FROM Request r WHERE r.id.annCode = ?1 AND r.state = 'accepted' ORDER BY r.dateC DESC"),
 @NamedQuery(
 	    name = "Request.getPendingByAnnCode",
-	    query = "SELECT r FROM Request r WHERE r.annCode = ?1 AND r.state = 'PENDING' ORDER BY r.dateC DESC")
+	    query = "SELECT r FROM Request r WHERE r.id.annCode = ?1 AND r.state = 'pending' ORDER BY r.dateC DESC")
 
 })
 public class Request implements Serializable {
